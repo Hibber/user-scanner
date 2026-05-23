@@ -54,6 +54,15 @@ python -m pip install --upgrade pip
 pip install user-scanner
 ```
 ---
+## Container usage
+This container image runs the **CLI for on-demand scans**.  
+See [Container usage](docs/CONTAINER.md) for build, run, and hosting examples.
+
+```bash
+docker build -t user-scanner:local .
+docker run --rm user-scanner:local -u johndoe
+```
+---
 ### Important Flags
 
 See [Important flags](docs/FLAGS.md) here and use the tool powerfully

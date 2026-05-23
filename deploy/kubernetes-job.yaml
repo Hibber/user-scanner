@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: user-scanner
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: user-scanner
+          image: ghcr.io/your-org/user-scanner:latest
+          args:
+            - "-u"
+            - "johndoe"
+            - "-c"
+            - "dev"
+            - "-o"
+            - "/data/report.json"
+            - "-f"
+            - "json"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}
