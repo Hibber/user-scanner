@@ -26,6 +26,8 @@ def validate_picsart(user):
                         extra['photos'] = data.get('photos_count')
 
                     return Result.taken(extra=extra)
+                if data.get('status') == 'error' or data.get('reason') == 'user_not_found':
+                    return Result.available()
             except Exception:
                 pass
         elif response.status_code == 404:

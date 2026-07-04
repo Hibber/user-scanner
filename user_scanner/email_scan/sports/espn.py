@@ -31,7 +31,7 @@ async def _check(email: str) -> Result:
                 data = response.json().get("data", {})
                 flow = data.get("guestFlow")
 
-                if flow == "LOGIN_FLOW":
+                if flow in ("LOGIN_FLOW", "RECOVERY_FLOW"):
                     return Result.taken(url=show_url)
                 elif flow == "REGISTRATION_FLOW":
                     return Result.available(url=show_url)

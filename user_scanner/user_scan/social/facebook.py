@@ -21,15 +21,11 @@ def _process_profile_response(status_code: int, html: str) -> Result:
     has_profile_markers = bool(
         PROFILE_TITLE_RE.search(html) and PROFILE_URL_RE.search(html)
     )
-    has_unavailable_marker = UNAVAILABLE_MARKER in html
 
-    if has_profile_markers and not has_unavailable_marker:
+    if has_profile_markers and UNAVAILABLE_MARKER not in html:
         return Result.taken()
 
-    if has_unavailable_marker and not has_profile_markers:
-        return Result.available()
-
-    return Result.error("Unexpected response body, report it via GitHub issues.")
+    return Result.available()
 
 
 def validate_facebook(user: str) -> Result:

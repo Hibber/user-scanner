@@ -31,7 +31,7 @@ async def _check(email: str) -> Result:
 
             if status == 200:
                 data = response.json()
-                if data.get("status") == "success" and data.get("data", {}).get("isFull") is True:
+                if data.get("status") == "success":
                     return Result.taken(url=show_url)
 
             if status == 400:
