@@ -9,6 +9,8 @@ PROFILE_URL_RE = re.compile(
     r'<meta property="og:url" content="https://www\.facebook\.com/[^"]+"'
 )
 UNAVAILABLE_MARKER = "This content isn't available right now"
+# Non-existent handles now render the generic logged-out page titled just "Facebook".
+NOT_FOUND_TITLE_RE = re.compile(r"<title[^>]*>\s*Facebook\s*</title>", re.IGNORECASE)
 
 
 def _process_profile_response(status_code: int, html: str) -> Result:
@@ -25,7 +27,10 @@ def _process_profile_response(status_code: int, html: str) -> Result:
     if has_profile_markers and UNAVAILABLE_MARKER not in html:
         return Result.taken()
 
-    return Result.available()
+    if UNAVAILABLE_MARKER in html or NOT_FOUND_TITLE_RE.search(html):
+        return Result.available()
+
+    return Result.error("Unexpected response body, report it via GitHub issues.")
 
 
 def validate_facebook(user: str) -> Result:

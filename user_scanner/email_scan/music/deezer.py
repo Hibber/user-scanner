@@ -67,12 +67,13 @@ async def _check(email: str) -> Result:
                 return Result.error(f"HTTP Error: {response.status_code}")
 
             data = response.json()
-            errors = data.get("results", {}).get("errors", {})
+            results = data.get("results", {})
+            errors = results.get("errors", {})
 
             if errors.get("email", {}).get("error") == "email_already_used":
                 return Result.taken(url=show_url)
 
-            elif not errors.get("email"):
+            elif not errors.get("email") and "suggestions" in results:
                 return Result.available(url=show_url)
 
             else:
