@@ -33,6 +33,6 @@ def validate_medium(user):
                 return Result.taken()
             else:
                 return Result.available()
-        return Result.error()
+        return Result.error(f"Unexpected status: {response.status_code}")
 
     return generic_validate(url, process, show_url=show_url, headers=headers)

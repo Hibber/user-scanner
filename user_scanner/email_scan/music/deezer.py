@@ -72,7 +72,7 @@ async def _check(email: str) -> Result:
             if errors.get("email", {}).get("error") == "email_already_used":
                 return Result.taken(url=show_url)
 
-            elif "country" in errors and "email" not in errors:
+            elif not errors.get("email"):
                 return Result.available(url=show_url)
 
             else:

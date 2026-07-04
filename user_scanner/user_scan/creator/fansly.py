@@ -8,6 +8,8 @@ def validate_fansly(user):
         if response.status_code == 200:
             try:
                 data = response.json()
+                if data.get('success') and not data.get('response'):
+                    return Result.available()
                 if data.get('success') and data.get('response'):
                     res = data['response'][0]
                     extra = {}
